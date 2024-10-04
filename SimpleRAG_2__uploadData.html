@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ベクトルDBへデータUL</title>
+</head>
+
+<body>
+	<h1>ベクトルDBへデータUL</h1>
+
+	元のテキスト<br>
+	<textarea id="originalText" rows="5" cols="75"></textarea> <br>
+
+	ベクトル値 (カンマ区切り)<br>
+	<input type="text" id="vectorData" size="75" required><br><br>
+
+	<button onclick="execute()">アップロード</button>
+
+	<div id="response"></div>
+
+	<script>
+		const pineconApiKey = '個々人で異なる';
+		const urlVectorDbIndex = '個々人で異なる';
+		const urlVectorDbUl = urlVectorDbIndex + '/vectors/upsert'
+
+		async function execute() {
+			const userInput = document.getElementById('vectorData').value;
+			const vectorArray = userInput.split(',').map(Number); // カンマ区切り文字列を数値配列に変換
+			const originalText = document.getElementById('originalText').value;
+
+			const result = await uploadData(vectorArray, originalText);
+
+			document.getElementById('response').innerText = result; 
+		}
+
+		async function uploadData(vector, txt) {
+			const Payload = {
+				vectors: [{
+					id: Date.now().toString(), // レコードID値は1970/1/1からの経過ミリ秒数
+					values: vector,
+					metadata: { text: txt }
+				}]
+			};
+
+			const response = await fetch(urlVectorDbUl, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Api-Key': pineconApiKey
+				},
+				body: JSON.stringify(Payload)
+			});
+
+			const data = await response.json();
+			return '結果: ' + JSON.stringify(data);
+		}
+	</script>
+</body>
+
+</html>

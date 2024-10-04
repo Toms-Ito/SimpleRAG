@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ベクトル値が似ているデータを取得</title>
+</head>
+
+<body>
+	<h1>ベクトル値が似ているデータを取得</h1>
+
+	ベクトル値 (カンマ区切り)<br>
+	<input type="text" id="inputVector" size="75"> <br><br>
+
+	<button onclick="execute()">ベクトル値が似ているデータを取得（JSON）</button>
+
+	<pre id="result"></pre> <!--divよりjson表示に都合が良い-->
+
+	<script>
+		const pineconApiKey = '個々人で異なる';
+		const urlVectorDbIndex = '個々人で異なる';
+        const urlVectorDbQuery = urlVectorDbIndex + '/query'
+
+		async function execute() {
+			const inputVector = document.getElementById('inputVector').value;
+			const privateData = await getPrivateJson(inputVector);
+			document.getElementById('result').textContent = JSON.stringify(privateData, null, 2);　//JSONを画面表示するため整形
+		}
+
+		async function getPrivateJson(input) {
+			const vector = input.split(',').map(Number); //配列として格納
+
+			const response = await fetch(urlVectorDbQuery, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Api-Key': pineconApiKey
+				},
+				body: JSON.stringify({
+					"vector": vector,
+					"topK": 5, // 取得レコード数の指定だが、類似度が高いレコードが少ない場合、指定数を下回るレコード数しか取得できない
+					"includeMetadata": true // ベクトル化前の文章はメタデータ（付属情報）として保存されている
+				})
+			});
+
+			return await response.json();
+		}
+	</script>
+</body>
+
+</html>

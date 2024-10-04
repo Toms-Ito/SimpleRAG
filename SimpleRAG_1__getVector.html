@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<title>ベクトル値を取得する</title>
+</head>
+
+<body>
+	<h1>ベクトル値を取得する</h1>
+
+	ベクトル化するテキスト <br>
+	<textarea id="textInput" rows="5" cols="75"></textarea> <br>
+	<button onclick="execute()">ベクトル値を取得</button> <br><br>
+
+	ベクトル値 <br>
+	<textarea id="result" rows="20" cols="20"></textarea>
+
+	<script>
+		const openAiApiKey = '個々人で異なる';
+		const urlEmbedding = 'https://api.openai.com/v1/embeddings';
+
+		async function execute() {
+			const text = document.getElementById('textInput').value;
+			const vector = await getEmbedding(text);
+			document.getElementById('result').textContent = vector;
+		}
+
+		async function getEmbedding(text) {
+			const data = {
+				input: text,
+				model: 'text-embedding-ada-002'
+			};
+
+			const response = await fetch(urlEmbedding, {
+				method: 'POST',
+				headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${openAiApiKey}`
+				},
+				body: JSON.stringify(data)
+			});
+
+			const result = await response.json();
+			const embedding = result.data[0].embedding; // JSONから必要データを抽出
+			return embedding.map(item => JSON.stringify(item)).join(', '); // 後工程用にカンマ区切りでベクトル値を表現
+		}
+	</script>
+</body>
+
+</html>

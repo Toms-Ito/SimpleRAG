@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<title>アタシAI</title>
+
+	<style>
+		body {
+			height: 100%;
+			font-family: Arial, sans-serif;
+			background-color: #f0f0f0;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin: 0;
+		}
+
+		#chat-container {
+			width: 100%;
+			height: 100%;
+			max-width: 400px;
+			background-color: #fff;
+			border-radius: 8px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			display: flex;
+			flex-direction: column;
+			position: sticky;
+			top: 0;
+		}
+
+		#header-container {
+			text-align: center;
+			padding: 10px;
+			border-bottom: 1px solid #ddd;
+			display: flex;
+			justify-content: flex-start;
+			-webkit-justify-content: flex-start;
+			position: fixed;
+			top: 0;
+			width: 100%;
+			max-width: 400px;
+			background-color: #fff;
+			z-index: 1000;
+		}
+
+		#header-container img {
+			width: 25px; 
+			height: 25px;
+		}
+
+		#header-container h1 {
+			font-size: medium;
+			text-align: left;
+			margin: 2px;
+		}
+
+		#reset-button {
+			font-size: small;
+			color: #ffffff;
+			background-color: #F06292;
+			border: none;
+			border-radius: 13px;
+			padding: 1px 10px;
+			cursor: pointer;
+			margin-left: auto;
+		}
+
+		#reset-button:hover {
+			background-color: #aaa;
+		}
+
+		#chat-box {
+			font-size: small;
+			flex: 1;
+			padding: 10px;
+			padding-top: 60px;
+			padding-bottom: 60px;
+			overflow-y: auto;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.message {
+			margin-bottom: 10px;
+			padding: 10px;
+			border-radius: 15px;
+			max-width: 75%;
+			word-wrap: break-word;
+		}
+
+		.user-message {
+			background-color: #fce0e9;
+			align-self: flex-end;
+		}
+
+		.bot-message {
+			background-color: #f1f0f0;
+			align-self: flex-start;
+		}
+
+		#input-container {
+			display: flex;
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+			max-width: 400px;
+			margin: 2px;
+			padding: 2px;
+		}
+
+		#input-container textarea {
+			font-size: small;
+			flex: 1;
+			border: 1px solid #ddd;
+			border-radius: 15px;
+			padding: 10px;
+			margin: 2px;
+		}
+
+		#input-container button {
+			font-size: small;
+			padding: 10px 20px;
+			margin: 3px;
+			border: none;
+			border-radius: 20px;
+			background-color: #F06292;
+			color: white;
+			cursor: pointer;
+		}
+
+		#input-container button:hover {
+			background-color: #aaa;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="chat-container">
+		<div id="header-container">
+			<img src="data:image/png;base64,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GGdlYs551KDrunZPeONCB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4AAQQeAAEEHgABBB4CAsXvA6eacuyc8uK5r7d7Ar1nLp/qZMfzr+SjmnEd9rOu6dk84lgsdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACBB0AAgQdAAIEHQACxu4B8H/5/Pnz7gkPXl9f1+4N3611zJTb7Xa7jXHcv57jBsHvcqEDQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0CAoANAgKADQICgA0DA0+4B8H95fX3dPeHBnHPs3vDdGGPt3nDvpL/N7Xa7Xde1ewL8MRc6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAQIOgAECDoABAg6AAT8C5f7b93saYPTAAAAAElFTkSuQmCC">
+			<h1>アタシAI</h1>
+			<button id="reset-button" onclick="resetChat()">リセット</button>
+		</div>
+
+		<div id="chat-box"></div>
+
+		<div id="input-container">
+			<textarea id="user-input" rows="1" placeholder="教えて欲しいコト"></textarea>
+			<button onclick="sendMessage()">送信</button>
+		</div>
+	</div>
+
+	<script>
+		// APIキー
+		const openAiApiKey = '個々人で異なる';
+		const pineconApiKey = '個々人で異なる';
+
+		// APIのURL：openAI
+		const urlEmbedding = 'https://api.openai.com/v1/embeddings';
+		const urlAiChat =  'https://api.openai.com/v1/chat/completions';
+
+		// APIのURL：Pinecone
+		const urlVectorDbIndex = '個々人で異なる';
+		const urlVectorDbQuery = urlVectorDbIndex + '/query'
+
+		const chatBox = document.getElementById('chat-box');
+		const userInput = document.getElementById('user-input');
+
+		// 重要処理１：システムプロンプト設定
+		let messages = [{ 
+			role: "system", 
+			content: "あなたはAIアシスタントです。" 
+		}];
+
+		async function sendMessage() {
+			document.getElementById('user-input').blur(); // スマホのキーボード表示を解除
+
+			const message = userInput.value.trim();　// 余計な空白削除
+			if (message === "") return; // 空入力チェック
+
+			appendMessage(message, 'user-message');
+			userInput.value = "";
+
+			try {
+				// 重要処理２：入力文のベクトル値を取得
+
+
+				// 重要処理３：ベクトルが近似するプライベート情報を取得
+
+
+				// 重要処理４：プライベート情報を含めたユーザープロンプトを作成
+				messages.push({
+					role: "user", content: "#ユーザー入力:" + message + "#プライベート情報:" + "" 
+				});
+
+				// 重要処理５：ChatGPTへの通信＆回答表示
+				const bodyRaw = JSON.stringify({
+					model: "gpt-4o",
+					messages: messages,
+				});
+
+				const response = await fetch(urlAiChat, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${openAiApiKey}`
+					},
+					body: bodyRaw
+				});
+
+				const data = await response.json();
+				const botMessages = data.choices.map(choice => choice.message.content);
+
+				botMessages.forEach(botMessage => {
+					appendMessage(botMessage, 'bot-message');
+					messages.push({
+						role: "assistant",
+						content: [
+							{
+								type: "text",
+								text: botMessage
+							}
+						]
+					});
+
+					console.log(messages);
+				});
+			} 
+			catch (error) {
+				appendMessage('エラーが発生しました。', 'bot-message');
+			}
+		}
+
+		function appendMessage(text, className) {
+			const messageElement = document.createElement('div');
+			messageElement.className = `message ${className}`;
+			messageElement.textContent = text;
+			chatBox.appendChild(messageElement);
+			chatBox.scrollTop = chatBox.scrollHeight;
+		}
+
+		function resetChat() {
+			document.getElementById('chat-box').innerHTML = "";
+			messages.splice(1); //システムプロンプト設定のみ残す
+		} 
+	</script>
+</body>
+
+</html>
