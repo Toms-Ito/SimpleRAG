@@ -26,7 +26,7 @@
 参加をお待ちしています。
 
 ## 課題の内容と独自性
-シンプルな***RAGシステム***（Retriever-Augmented Generation）を構築します。  
+シンプルなRAGシステム（Retriever-Augmented Generation）を構築します。  
 RAGは、生成AIに未知の情報を取り入れて回答させる手法で、今後の主流になると期待されている有力なアプローチです。  
 今回の課題ではそのための中核となる技術として、生成AIにはChatGPTを、ベクトルデータベースにはPineconeを使用します。  
     
