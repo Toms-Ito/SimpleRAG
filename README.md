@@ -1,5 +1,6 @@
 # 某社「1Dayインターンシップ用おまけ課題」リポジトリ
-![Project Overview](./img/forREADME.png)
+こういうものを作ります。
+![Project Overview](./img/forREADME2.png)
 
 ## 初めに
 本リポジトリには、「2026年卒の学生向けの某社1Dayインターンシップ」に参加した方向けに、  
