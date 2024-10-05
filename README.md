@@ -28,7 +28,7 @@
 参加をお待ちしています。
 
 ## 連絡方法
-[GitHubディスカッション](https://github.com/Toms-Ito/SimpleRAG/discussions)をONにしているので、こちらからお願いします。  
+[GitHubディスカッション](https://github.com/Toms-Ito/SimpleRAG/discussions)からお願いします。  
 ただし、趣味的に作ったものなので、返信は期待しないでください。。。  
 
 ## 課題の内容と独自性
