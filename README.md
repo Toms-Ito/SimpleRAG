@@ -1,4 +1,4 @@
-# 某社の「1Dayインターンシップ用のおまけ課題」リポジトリ
+# 某社「1Dayインターンシップ用おまけ課題」リポジトリ
 ![Project Overview](./img/forREADME.png)
 
 ## 初めに
