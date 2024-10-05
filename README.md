@@ -27,6 +27,10 @@
 何かの縁でここに辿りついて、[1Dayインターンシップに興味を持った方はこちらをご覧ください](https://job.mynavi.jp/26/pc/corpinfo/displayInternship/index?optNo=-C7Wa&corpId=66889)。  
 参加をお待ちしています。
 
+## 連絡方法
+[GitHubディスカッション](https://github.com/Toms-Ito/SimpleRAG/discussions)をONにしているので、こちらからお願いします。  
+ただし、趣味的に作ったものなので、返信は期待しないでください。。。  
+
 ## 課題の内容と独自性
 シンプルなRAGシステム（Retriever-Augmented Generation）を構築します。  
 RAGは、生成AIに未知の情報を取り入れて回答させる手法で、  
