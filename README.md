@@ -29,7 +29,7 @@
 
 ## 連絡方法
 [GitHubディスカッション](https://github.com/Toms-Ito/SimpleRAG/discussions)からお願いします。  
-ただし、趣味的に作ったものなので、返信は期待しないでください。。。  
+ただし、趣味的に作ったものなので、返信にはとても時間がかかると思ってください。。。
 
 ## 課題の内容と独自性
 シンプルなRAGシステム（Retriever-Augmented Generation）を構築します。  
